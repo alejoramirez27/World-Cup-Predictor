@@ -1,8 +1,8 @@
 {
   "version": "model_final_wc2026",
-  "created": "2026-06-12T10:14:48",
-  "trained_through": "2026-06-10",
-  "n_matches": 15817,
+  "created": "2026-06-14T17:59:37",
+  "trained_through": "2026-06-11",
+  "n_matches": 23273,
   "params": {
     "learning_rate": 0.07545307393056125,
     "max_depth": 4,
@@ -13,13 +13,13 @@
     "gamma": 1.579648497673366
   },
   "n_estimators": 124,
-  "rho": -0.04792995556934391,
+  "rho": -0.05019003208719845,
   "ensemble_w": 0.55,
   "dc": {
     "since": 2018,
     "half_life_years": 4.0,
-    "gamma": 0.2506237477247912,
-    "rho": -0.0453609081821054
+    "gamma": 0.2506658811466631,
+    "rho": -0.045338966661613495
   },
   "feature_cols": [
     "home_elo",

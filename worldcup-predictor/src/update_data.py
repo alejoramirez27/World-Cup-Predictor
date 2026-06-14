@@ -57,7 +57,7 @@ def retrain() -> None:
     from model import (TRAIN_END, TRAIN_START, estimate_rho, prepare_data,
                        save_models, train_models)
 
-    print("\nReentrenando modelos (warm-up Elo 1990, features desde 2010)...")
+    print(f"\nReentrenando modelos (warm-up Elo 1990, features desde {TRAIN_START})...")
     df, builder = prepare_data()
     models = train_models(df)
     save_models(models)

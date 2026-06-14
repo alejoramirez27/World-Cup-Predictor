@@ -4,7 +4,7 @@ de Poisson.
 
 Split temporal:
   - warm-up Elo: 1990-2009 (solo ratings)
-  - entrenamiento: 2010-2023
+  - entrenamiento: 2002-2023
   - validación: 2024-2025
 """
 
@@ -22,7 +22,10 @@ from features import FeatureBuilder
 MODELS_DIR = Path(__file__).resolve().parent.parent / "models"
 
 ELO_START = 1990
-TRAIN_START, TRAIN_END = 2010, 2023
+# Ventana de entrenamiento desde 2002 (era moderna, ~21k partidos). Probado en
+# notebooks/test_train_window.py: más historia mejora log-loss/Brier de forma
+# consistente; el grueso de la ganancia se captura en 2002 y luego se aplana.
+TRAIN_START, TRAIN_END = 2002, 2023
 VAL_START, VAL_END = 2024, 2025
 
 MAX_GOALS = 6  # la matriz de Poisson cubre marcadores 0-6
@@ -471,7 +474,7 @@ def save_models(models: dict) -> None:
 
 
 if __name__ == "__main__":
-    print("Preparando datos (warm-up Elo 1990, features desde 2010)...")
+    print(f"Preparando datos (warm-up Elo {ELO_START}, features desde {TRAIN_START})...")
     df, builder = prepare_data()
 
     print(f"Entrenando: {TRAIN_START}-{TRAIN_END} | validando: {VAL_START}-{VAL_END}")

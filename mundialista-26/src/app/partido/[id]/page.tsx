@@ -7,6 +7,8 @@ import { favorite, pct } from "@/lib/format";
 import { ProbBar } from "@/components/match/ProbBar";
 import { PoissonHeatmap } from "@/components/match/PoissonHeatmap";
 import { PersonalityStat } from "@/components/match/PersonalityStat";
+import { MarketsPanel } from "@/components/match/MarketsPanel";
+import { StatsEstimate } from "@/components/match/StatsEstimate";
 import { OverUnderBadge } from "@/components/match/OverUnderBadge";
 import { GradeBadge } from "@/components/tracking/GradeBadge";
 
@@ -122,6 +124,32 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
           favLabel={favLabel}
         />
       </div>
+
+      <div className="mt-8">
+        <h2 className="text-sm font-semibold mb-3">Remates y corners (estimado)</h2>
+        <StatsEstimate
+          lambdaHome={match.lambda_home}
+          lambdaAway={match.lambda_away}
+          home={match.equipo_home}
+          away={match.equipo_away}
+        />
+      </div>
+
+      {match.poisson_matrix && (
+        <div className="mt-8">
+          <h2 className="text-sm font-semibold mb-3">Todos los mercados</h2>
+          <MarketsPanel
+            matrix={match.poisson_matrix}
+            home={match.equipo_home}
+            away={match.equipo_away}
+          />
+          <p className="mt-3 text-xs text-faint">
+            Todos los mercados se derivan de la distribución de goles del modelo.
+            Corners, remates y goles por tiempo no están disponibles: el dataset
+            solo contiene resultados finales.
+          </p>
+        </div>
+      )}
     </article>
   );
 }

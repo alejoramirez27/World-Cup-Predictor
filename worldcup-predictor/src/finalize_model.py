@@ -50,7 +50,7 @@ def main() -> None:
     print(f"hiperparámetros del tuning: {params}")
     print(f"n_estimators fijo: {n_estimators}")
 
-    print("\nPreparando datos (warm-up Elo 1990, features desde 2010)...")
+    print(f"\nPreparando datos (warm-up Elo 1990, features desde {TRAIN_START})...")
     df, builder = prepare_data()
     cats = df["match_type"].astype("category").cat.categories
 
@@ -62,7 +62,7 @@ def main() -> None:
     X_tr["match_type"] = X_tr["match_type"].cat.set_categories(cats)
     X_va["match_type"] = X_va["match_type"].cat.set_categories(cats)
 
-    print("entrenando XGB tuneado (2010-2023) para optimizar w...")
+    print(f"entrenando XGB tuneado ({TRAIN_START}-{TRAIN_END}) para optimizar w...")
     mh = _fit_xgb(params, n_estimators, X_tr, yh_tr)
     ma = _fit_xgb(params, n_estimators, X_tr, ya_tr)
     models_tmp = {"model_home": mh, "model_away": ma,

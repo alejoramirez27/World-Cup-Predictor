@@ -84,6 +84,18 @@ export async function getTracking(): Promise<MatchWithResult[]> {
   return (data as RawJoin[]).map(normalize).filter((m) => m.result !== null);
 }
 
+/** Todos los partidos del fixture (jugados y por jugar), por fecha. */
+export async function getAllMatches(): Promise<MatchWithResult[]> {
+  const db = getSupabase();
+  if (!db) return [];
+  const { data, error } = await db
+    .from("predictions")
+    .select(SELECT)
+    .order("fecha", { ascending: true });
+  if (error || !data) return [];
+  return (data as RawJoin[]).map(normalize);
+}
+
 /** Serie temporal de métricas acumuladas. */
 export async function getMetrics(): Promise<MetricRow[]> {
   const db = getSupabase();

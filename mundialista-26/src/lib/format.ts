@@ -49,3 +49,13 @@ type PredictionLike = { prob_home: number; prob_draw: number; prob_away: number 
 export function cn(...parts: Array<string | false | null | undefined>): string {
   return parts.filter(Boolean).join(" ");
 }
+
+const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+const DIAS = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+
+/** Descompone "YYYY-MM-DD" para mostrar, sin desfases de zona horaria. */
+export function chipDate(iso: string): { dow: string; day: number; mon: string } {
+  const [y, m, d] = iso.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return { dow: DIAS[dt.getUTCDay()], day: d, mon: MESES[m - 1] };
+}
