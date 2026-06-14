@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>worldcup-predictor — Mundial 2026</title>
+<style>
+ body{font-family:system-ui,sans-serif;margin:2rem auto;max-width:960px;
+      background:#0e1117;color:#e6e6e6;padding:0 1rem}
+ h1,h2{color:#58a6ff} table{border-collapse:collapse;width:100%;margin:1rem 0}
+ th,td{padding:.4rem .6rem;border-bottom:1px solid #30363d;text-align:left;
+       font-size:.9rem} th{color:#8b949e}
+ .ok{color:#3fb950}.bad{color:#f85149}.warn{background:#3d2c00}
+ .pill{display:inline-block;padding:.1rem .5rem;border-radius:1rem;
+       background:#21262d;margin-right:.5rem}
+ small{color:#8b949e}
+ .g-good{color:#3fb950;font-weight:600}.g-weak{color:#d29922;font-weight:600}
+ .g-bad{color:#f85149;font-weight:600}.g-none{color:#8b949e}
+</style></head><body>
+<h1>worldcup-predictor — Mundial 2026</h1>
+<p id="meta"></p><div id="metrics"></div>
+<h2>Detector de valor</h2><div id="value"></div>
+<h2>Partidos</h2><div id="matches"></div>
+<script>
+const D = {"generated": "2026-06-13T14:53:36+00:00", "metrics": {"n_played": 4, "ll_model": 0.9008582398043009, "blend_w": 0.3, "blend_w_source": "default (solo 0 partidos con odds y resultado; se optimiza con >=8)", "n_market": 0}, "matches": [{"date": "2026-06-11", "home_team": "Mexico", "away_team": "South Africa", "lambda_home": 2.274, "lambda_away": 0.455, "p_home": 0.784, "p_draw": 0.1596, "p_away": 0.0564, "top_scorelines": "2-0:0.170|1-0:0.147|3-0:0.129", "odds_home": null, "odds_draw": null, "odds_away": null, "p_mkt_home": null, "p_mkt_draw": null, "p_mkt_away": null, "odds_ts": null, "n_bookmakers": null, "home_score": 2.0, "away_score": 0.0, "outcome": "home_win", "logloss_model": 0.2433462586, "logloss_market": null, "grade": "ACIERTO", "grade_level": "good", "hit_1x2": true}, {"date": "2026-06-11", "home_team": "South Korea", "away_team": "Czech Republic", "lambda_home": 1.511, "lambda_away": 0.962, "p_home": 0.4942, "p_draw": 0.2702, "p_away": 0.2356, "top_scorelines": "1-1:0.128|1-0:0.122|2-0:0.096", "odds_home": null, "odds_draw": null, "odds_away": null, "p_mkt_home": null, "p_mkt_draw": null, "p_mkt_away": null, "odds_ts": null, "n_bookmakers": null, "home_score": 2.0, "away_score": 1.0, "outcome": "home_win", "logloss_model": 0.7048149854, "logloss_market": null, "grade": "FLOJO", "grade_level": "weak", "hit_1x2": true}, {"date": "2026-06-12", "home_team": "Canada", "away_team": "Bosnia and Herzegovina", "lambda_home": 2.188, "lambda_away": 0.62, "p_home": 0.7124, "p_draw": 0.1926, "p_away": 0.095, "top_scorelines": "2-0:0.144|1-0:0.133|3-0:0.101", "odds_home": null, "odds_draw": null, "odds_away": null, "p_mkt_home": null, "p_mkt_draw": null, "p_mkt_away": null, "odds_ts": null, "n_bookmakers": null, "home_score": 1.0, "away_score": 1.0, "outcome": "draw", "logloss_model": 1.6471397796, "logloss_market": null, "grade": "FALLO", "grade_level": "bad", "hit_1x2": false}, {"date": "2026-06-12", "home_team": "United States", "away_team": "Paraguay", "lambda_home": 1.152, "lambda_away": 1.453, "p_home": 0.3649, "p_draw": 0.2799, "p_away": 0.3552, "top_scorelines": "1-1:0.132|1-0:0.102|0-1:0.097", "odds_home": null, "odds_draw": null, "odds_away": null, "p_mkt_home": null, "p_mkt_draw": null, "p_mkt_away": null, "odds_ts": null, "n_bookmakers": null, "home_score": 4.0, "away_score": 1.0, "outcome": "home_win", "logloss_model": 1.0081319355, "logloss_market": null, "grade": "FLOJO", "grade_level": "weak", "hit_1x2": true}], "value": []};
+const pct = x => x==null ? "—" : (100*x).toFixed(1)+"%";
+const f = (x,n=4) => x==null ? "—" : (+x).toFixed(n);
+document.getElementById("meta").innerHTML =
+  `<small>generado ${D.generated} (UTC)</small>`;
+const M = D.metrics;
+let mh = `<span class="pill">jugados: ${M.n_played}</span>
+ <span class="pill">log-loss modelo: ${f(M.ll_model)}</span>
+ <span class="pill">w blend: ${M.blend_w}</span>`;
+if (M.n_market) mh += `<br><span class="pill">con odds: ${M.n_market}</span>
+ <span class="pill">modelo: ${f(M.ll_model_subset)}</span>
+ <span class="pill">mercado: ${f(M.ll_market)}</span>
+ <span class="pill">blend: ${f(M.ll_blend)}</span>`;
+document.getElementById("metrics").innerHTML = mh;
+if (D.value.length) {
+  let h = `<table><tr><th>partido</th><th>lado</th><th>modelo</th>
+   <th>mercado</th><th>diff</th><th>odds</th><th>EV</th></tr>`;
+  for (const v of D.value)
+    h += `<tr class="${v.warn ? "warn" : ""}"><td>${v.match}</td>
+     <td>${v.side}</td><td>${pct(v.p_model)}</td><td>${pct(v.p_market)}</td>
+     <td>${v.diff_pp.toFixed(1)}pp</td><td>${f(v.odds,2)}</td>
+     <td class="${v.ev>0?"ok":"bad"}">${f(v.ev,3)}</td></tr>`;
+  h += "</table><small>filas resaltadas: discrepancia &gt;10pp — verificar " +
+       "noticias de alineación antes de confiar en el modelo</small>";
+  document.getElementById("value").innerHTML = h;
+} else document.getElementById("value").innerHTML =
+  "<small>sin partidos próximos con odds</small>";
+let h = `<table><tr><th>fecha</th><th>partido</th><th>predicción 1X2</th>
+ <th>mercado</th><th>resultado</th><th>grado</th><th>1X2</th>
+ <th>log-loss</th></tr>`;
+for (const r of D.matches) {
+  const res = r.outcome ? `${r.home_score}-${r.away_score}` : "pendiente";
+  const mkt = r.p_mkt_home!=null ?
+    `${pct(r.p_mkt_home)}/${pct(r.p_mkt_draw)}/${pct(r.p_mkt_away)}` : "—";
+  const grade = r.grade ?
+    `<span class="g-${r.grade_level}">${r.grade}</span>` : "—";
+  const x12 = r.hit_1x2==null ? "—" :
+    (r.hit_1x2 ? '<span class="ok">✓</span>' : '<span class="bad">✗</span>');
+  h += `<tr><td>${r.date}</td><td>${r.home_team} vs ${r.away_team}</td>
+   <td>${pct(r.p_home)}/${pct(r.p_draw)}/${pct(r.p_away)}</td><td>${mkt}</td>
+   <td>${res}</td><td>${grade}</td><td>${x12}</td>
+   <td>${f(r.logloss_model,3)}</td></tr>`;
+}
+h += `</table><small>grado por log-loss del partido: ` +
+  `<span class="g-good">ACIERTO</span> &lt;0.70 · ` +
+  `<span class="g-weak">FLOJO</span> 0.70–1.0986 · ` +
+  `<span class="g-bad">FALLO</span> &gt;1.0986 (azar). ` +
+  `La columna 1X2 es el acierto direccional puro.</small>`;
+document.getElementById("matches").innerHTML = h;
+</script></body></html>

@@ -1,0 +1,9 @@
+pandas>=3.0
+kagglehub>=1.0
+truststore>=0.10
+xgboost>=3.0
+scikit-learn>=1.7
+scipy>=1.14
+matplotlib>=3.9
+rich>=13.0
+supabase>=2.0

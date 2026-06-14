@@ -1,0 +1,49 @@
+{
+  "version": "model_final_wc2026",
+  "created": "2026-06-12T10:14:48",
+  "trained_through": "2026-06-10",
+  "n_matches": 15817,
+  "params": {
+    "learning_rate": 0.07545307393056125,
+    "max_depth": 4,
+    "min_child_weight": 2.3106301441102315,
+    "subsample": 0.7721957311046775,
+    "colsample_bytree": 0.716007373425492,
+    "reg_lambda": 5.589948612052342,
+    "gamma": 1.579648497673366
+  },
+  "n_estimators": 124,
+  "rho": -0.04792995556934391,
+  "ensemble_w": 0.55,
+  "dc": {
+    "since": 2018,
+    "half_life_years": 4.0,
+    "gamma": 0.2506237477247912,
+    "rho": -0.0453609081821054
+  },
+  "feature_cols": [
+    "home_elo",
+    "home_gf_adj5",
+    "home_ga_adj5",
+    "home_gf_adj10",
+    "home_ga_adj10",
+    "home_form5_perf",
+    "home_comp_share10",
+    "away_elo",
+    "away_gf_adj5",
+    "away_ga_adj5",
+    "away_gf_adj10",
+    "away_ga_adj10",
+    "away_form5_perf",
+    "away_comp_share10",
+    "elo_diff",
+    "elo_expected_home",
+    "true_home_advantage",
+    "match_type"
+  ],
+  "tuning": {
+    "best_value": 2.7981253345349035,
+    "default_value": 2.7990250993912844
+  },
+  "policy": "CONGELADO durante el Mundial 2026: no reentrenar. Las features (Elo, forma, descanso) se recalculan con cada corrida a partir de data/raw actualizado."
+}

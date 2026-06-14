@@ -1,0 +1,250 @@
+{
+  "predictions_sample": [
+    {
+      "match_id": "2026-06-11__mexico__vs__south-africa",
+      "fecha": "2026-06-11",
+      "fase_grupo": "A",
+      "equipo_home": "Mexico",
+      "equipo_away": "South Africa",
+      "prob_home": 0.784,
+      "prob_draw": 0.1596,
+      "prob_away": 0.0564,
+      "top_scorelines": [
+        {
+          "score": "2-0",
+          "prob": 0.1688
+        },
+        {
+          "score": "1-0",
+          "prob": 0.1452
+        },
+        {
+          "score": "3-0",
+          "prob": 0.1279
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0768
+        },
+        {
+          "score": "4-0",
+          "prob": 0.0727
+        }
+      ],
+      "poisson_matrix": [
+        [
+          0.06852,
+          0.02647,
+          0.00676,
+          0.00102,
+          0.00012,
+          1e-05,
+          0.0
+        ],
+        [
+          0.14522,
+          0.07079,
+          0.01537,
+          0.00233,
+          0.00027,
+          2e-05,
+          0.0
+        ],
+        [
+          0.1688,
+          0.0768,
+          0.01747,
+          0.00265,
+          0.0003,
+          3e-05,
+          0.0
+        ],
+        [
+          0.12795,
+          0.05822,
+          0.01324,
+          0.00201,
+          0.00023,
+          2e-05,
+          0.0
+        ],
+        [
+          0.07274,
+          0.0331,
+          0.00753,
+          0.00114,
+          0.00013,
+          1e-05,
+          0.0
+        ],
+        [
+          0.03308,
+          0.01505,
+          0.00342,
+          0.00052,
+          6e-05,
+          1e-05,
+          0.0
+        ],
+        [
+          0.01814,
+          0.00826,
+          0.00188,
+          0.00028,
+          3e-05,
+          0.0,
+          0.0
+        ]
+      ],
+      "over25_prob": 0.5135,
+      "prob_goleada": 0.549,
+      "lambda_home": 2.274,
+      "lambda_away": 0.455,
+      "model_version": "model_final_wc2026@2026-06-10"
+    },
+    {
+      "match_id": "2026-06-11__south-korea__vs__czech-republic",
+      "fecha": "2026-06-11",
+      "fase_grupo": "A",
+      "equipo_home": "South Korea",
+      "equipo_away": "Czech Republic",
+      "prob_home": 0.4942,
+      "prob_draw": 0.2702,
+      "prob_away": 0.2356,
+      "top_scorelines": [
+        {
+          "score": "1-1",
+          "prob": 0.1285
+        },
+        {
+          "score": "1-0",
+          "prob": 0.1215
+        },
+        {
+          "score": "2-0",
+          "prob": 0.0963
+        },
+        {
+          "score": "2-1",
+          "prob": 0.0926
+        },
+        {
+          "score": "0-0",
+          "prob": 0.0902
+        }
+      ],
+      "poisson_matrix": [
+        [
+          0.09021,
+          0.07525,
+          0.03902,
+          0.01251,
+          0.00301,
+          0.00058,
+          0.00011
+        ],
+        [
+          0.12155,
+          0.12846,
+          0.05896,
+          0.01891,
+          0.00455,
+          0.00087,
+          0.00016
+        ],
+        [
+          0.09627,
+          0.09261,
+          0.04455,
+          0.01428,
+          0.00344,
+          0.00066,
+          0.00012
+        ],
+        [
+          0.04849,
+          0.04665,
+          0.02244,
+          0.00719,
+          0.00173,
+          0.00033,
+          6e-05
+        ],
+        [
+          0.01832,
+          0.01762,
+          0.00848,
+          0.00272,
+          0.00065,
+          0.00013,
+          2e-05
+        ],
+        [
+          0.00554,
+          0.00532,
+          0.00256,
+          0.00082,
+          0.0002,
+          4e-05,
+          1e-05
+        ],
+        [
+          0.00176,
+          0.0017,
+          0.00082,
+          0.00026,
+          6e-05,
+          1e-05,
+          0.0
+        ]
+      ],
+      "over25_prob": 0.4492,
+      "prob_goleada": 0.2547,
+      "lambda_home": 1.511,
+      "lambda_away": 0.962,
+      "model_version": "model_final_wc2026@2026-06-10"
+    }
+  ],
+  "results": [
+    {
+      "match_id": "2026-06-11__mexico__vs__south-africa",
+      "goles_home": 2,
+      "goles_away": 0,
+      "log_loss_partido": 0.2433,
+      "acierto_1x2": true,
+      "registrado_at": "2026-06-13T19:40:28+00:00"
+    },
+    {
+      "match_id": "2026-06-11__south-korea__vs__czech-republic",
+      "goles_home": 2,
+      "goles_away": 1,
+      "log_loss_partido": 0.7048,
+      "acierto_1x2": true,
+      "registrado_at": "2026-06-13T19:40:28+00:00"
+    },
+    {
+      "match_id": "2026-06-12__canada__vs__bosnia-and-herzegovina",
+      "goles_home": 1,
+      "goles_away": 1,
+      "log_loss_partido": 1.6471,
+      "acierto_1x2": false,
+      "registrado_at": "2026-06-13T19:40:28+00:00"
+    },
+    {
+      "match_id": "2026-06-12__united-states__vs__paraguay",
+      "goles_home": 4,
+      "goles_away": 1,
+      "log_loss_partido": 1.0081,
+      "acierto_1x2": true,
+      "registrado_at": "2026-06-13T19:40:28+00:00"
+    }
+  ],
+  "metrics": {
+    "fecha": "2026-06-13",
+    "log_loss_acumulado": 0.9009,
+    "brier_acumulado": 0.559,
+    "accuracy_1x2": 0.75,
+    "partidos_evaluados": 4,
+    "log_loss_azar": 1.0986
+  }
+}
