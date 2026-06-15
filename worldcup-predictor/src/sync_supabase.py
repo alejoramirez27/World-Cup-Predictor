@@ -213,6 +213,29 @@ def main() -> None:
     print(f"  results:       {n_res} filas")
     print(f"  model_metrics: {n_met} filas")
 
+    revalidate_web()
+
+
+def revalidate_web() -> None:
+    """Refresca la web al instante (revalidación on-demand). Best-effort: si
+    falla o falta configuración, no rompe el sync."""
+    web, token = _env("WEB_URL"), _env("REVALIDATE_TOKEN")
+    if not web or not token:
+        print("(revalidación web omitida: configura WEB_URL y REVALIDATE_TOKEN "
+              "en .env y en Vercel)")
+        return
+    try:
+        import requests
+
+        r = requests.post(f"{web.rstrip('/')}/api/revalidate",
+                          headers={"x-revalidate-token": token}, timeout=20)
+        if r.status_code == 200:
+            print(f"web revalidada al instante: {web}")
+        else:
+            print(f"revalidación web: HTTP {r.status_code} {r.text[:120]}")
+    except Exception as exc:
+        print(f"revalidación web fallida (no crítico): {str(exc)[:120]}")
+
 
 if __name__ == "__main__":
     main()

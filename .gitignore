@@ -19,6 +19,7 @@
 
 # --- datos pesados y artefactos locales ---
 worldcup-predictor/data/raw/*.csv
+worldcup-predictor/reports/web/
 **/.DS_Store
 .vercel
 **/*.log
