@@ -1,84 +1,84 @@
 {
-  "fifaRankDate": "2023-07-20",
+  "fifaRankDate": "2025-09-18",
   "teams": {
     "Algeria": {
       "squad": 76.0,
-      "fifaRank": 33,
+      "fifaRank": 38,
       "eloRank": 27
     },
     "Argentina": {
       "squad": 83.5,
-      "fifaRank": 1,
+      "fifaRank": 3,
       "eloRank": 2
     },
     "Australia": {
       "squad": 71.1,
-      "fifaRank": 27,
+      "fifaRank": 25,
       "eloRank": 23
     },
     "Austria": {
       "squad": 78.1,
-      "fifaRank": 29,
+      "fifaRank": 22,
       "eloRank": 30
     },
     "Belgium": {
       "squad": 80.7,
-      "fifaRank": 5,
+      "fifaRank": 8,
       "eloRank": 18
     },
     "Bosnia and Herzegovina": {
       "squad": 73.2,
-      "fifaRank": 62,
+      "fifaRank": 73,
       "eloRank": 92
     },
     "Brazil": {
       "squad": 84.4,
-      "fifaRank": 3,
+      "fifaRank": 6,
       "eloRank": 5
     },
     "Canada": {
       "squad": 72.1,
-      "fifaRank": 43,
+      "fifaRank": 26,
       "eloRank": 26
     },
     "Cape Verde": {
       "squad": null,
-      "fifaRank": 66,
+      "fifaRank": 70,
       "eloRank": 84
     },
     "Colombia": {
       "squad": 77.5,
-      "fifaRank": 17,
+      "fifaRank": 13,
       "eloRank": 6
     },
     "Croatia": {
       "squad": 78.3,
-      "fifaRank": 6,
+      "fifaRank": 9,
       "eloRank": 17
     },
     "Curaçao": {
       "squad": 65.8,
-      "fifaRank": 88,
+      "fifaRank": 84,
       "eloRank": 88
     },
     "Czech Republic": {
       "squad": 75.8,
-      "fifaRank": 37,
+      "fifaRank": 39,
       "eloRank": 50
     },
     "DR Congo": {
       "squad": 73.0,
-      "fifaRank": 69,
+      "fifaRank": 60,
       "eloRank": 43
     },
     "Ecuador": {
       "squad": 74.3,
-      "fifaRank": 40,
+      "fifaRank": 24,
       "eloRank": 7
     },
     "Egypt": {
       "squad": 76.8,
-      "fifaRank": 34,
+      "fifaRank": 35,
       "eloRank": 38
     },
     "England": {
@@ -93,12 +93,12 @@
     },
     "Germany": {
       "squad": 84.3,
-      "fifaRank": 15,
+      "fifaRank": 12,
       "eloRank": 13
     },
     "Ghana": {
       "squad": 75.7,
-      "fifaRank": 60,
+      "fifaRank": 75,
       "eloRank": 91
     },
     "Haiti": {
@@ -108,37 +108,37 @@
     },
     "Iran": {
       "squad": 70.0,
-      "fifaRank": 22,
+      "fifaRank": 21,
       "eloRank": 24
     },
     "Iraq": {
       "squad": 63.1,
-      "fifaRank": 70,
+      "fifaRank": 58,
       "eloRank": 47
     },
     "Ivory Coast": {
       "squad": 77.3,
-      "fifaRank": 52,
+      "fifaRank": 44,
       "eloRank": 37
     },
     "Japan": {
       "squad": 76.7,
-      "fifaRank": 20,
+      "fifaRank": 19,
       "eloRank": 9
     },
     "Jordan": {
       "squad": 68.5,
-      "fifaRank": 82,
+      "fifaRank": 62,
       "eloRank": 42
     },
     "Mexico": {
       "squad": 71.1,
-      "fifaRank": 12,
+      "fifaRank": 14,
       "eloRank": 12
     },
     "Morocco": {
       "squad": 78.0,
-      "fifaRank": 14,
+      "fifaRank": 11,
       "eloRank": 10
     },
     "Netherlands": {
@@ -148,42 +148,42 @@
     },
     "New Zealand": {
       "squad": 67.4,
-      "fifaRank": null,
+      "fifaRank": 83,
       "eloRank": 57
     },
     "Norway": {
       "squad": 76.6,
-      "fifaRank": 44,
+      "fifaRank": 31,
       "eloRank": 14
     },
     "Panama": {
       "squad": 68.7,
-      "fifaRank": 45,
+      "fifaRank": 29,
       "eloRank": 31
     },
     "Paraguay": {
       "squad": 74.0,
-      "fifaRank": 49,
+      "fifaRank": 37,
       "eloRank": 20
     },
     "Portugal": {
       "squad": 83.5,
-      "fifaRank": 9,
+      "fifaRank": 5,
       "eloRank": 8
     },
     "Qatar": {
       "squad": null,
-      "fifaRank": 59,
+      "fifaRank": 53,
       "eloRank": 111
     },
     "Saudi Arabia": {
       "squad": 71.0,
-      "fifaRank": 54,
+      "fifaRank": 59,
       "eloRank": 67
     },
     "Scotland": {
       "squad": 76.0,
-      "fifaRank": 30,
+      "fifaRank": 43,
       "eloRank": 32
     },
     "Senegal": {
@@ -193,52 +193,52 @@
     },
     "South Africa": {
       "squad": 62.0,
-      "fifaRank": 63,
+      "fifaRank": 55,
       "eloRank": 82
     },
     "South Korea": {
       "squad": 74.6,
-      "fifaRank": 28,
+      "fifaRank": 23,
       "eloRank": 21
     },
     "Spain": {
       "squad": 84.1,
-      "fifaRank": 10,
+      "fifaRank": 1,
       "eloRank": 1
     },
     "Sweden": {
       "squad": 76.1,
-      "fifaRank": 23,
+      "fifaRank": 32,
       "eloRank": 56
     },
     "Switzerland": {
       "squad": 78.8,
-      "fifaRank": 13,
+      "fifaRank": 17,
       "eloRank": 19
     },
     "Tunisia": {
       "squad": 69.6,
-      "fifaRank": 31,
+      "fifaRank": 46,
       "eloRank": 55
     },
     "Turkey": {
       "squad": 77.4,
-      "fifaRank": 41,
+      "fifaRank": 27,
       "eloRank": 16
     },
     "United States": {
       "squad": 75.8,
-      "fifaRank": 11,
+      "fifaRank": 16,
       "eloRank": 35
     },
     "Uruguay": {
       "squad": 79.0,
-      "fifaRank": 16,
+      "fifaRank": 15,
       "eloRank": 15
     },
     "Uzbekistan": {
       "squad": 69.0,
-      "fifaRank": 74,
+      "fifaRank": 54,
       "eloRank": 33
     }
   }

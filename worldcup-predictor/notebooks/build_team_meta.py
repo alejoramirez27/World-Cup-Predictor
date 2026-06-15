@@ -6,11 +6,13 @@ import sys
 import unicodedata
 from pathlib import Path
 
+import re
+
 import pandas as pd
+import requests
 import truststore
 
 truststore.inject_into_ssl()
-import kagglehub  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
@@ -37,19 +39,32 @@ df = pd.read_csv(RAW, parse_dates=["date"])
 wc = df[(df["tournament"] == "FIFA World Cup") & (df["date"].dt.year == 2026)]
 teams = sorted(set(wc["home_team"]) | set(wc["away_team"]))
 
-# ranking FIFA oficial (dataset Kaggle)
-rk = Path(kagglehub.dataset_download("cashncarry/fifaworldranking"))
-rdf = pd.read_csv(next(rk.glob("*.csv")))
-datecol = next(c for c in rdf.columns if "date" in c.lower())
-rankcol = next(c for c in rdf.columns if c.lower() == "rank")
-namecol = next(c for c in rdf.columns if "country_full" in c.lower() or c.lower() == "country")
-rdf[datecol] = pd.to_datetime(rdf[datecol])
-latest = rdf[rdf[datecol] == rdf[datecol].max()]
-print(f"ranking FIFA a la fecha: {rdf[datecol].max().date()}")
-rank_by = {}
-for _, r in latest.iterrows():
-    key = RANK_ALIAS.get(norm(r[namecol]), norm(r[namecol]))
-    rank_by[key] = int(r[rankcol])
+# ranking FIFA oficial y ACTUAL desde la API interna de inside.fifa.com.
+# El dateId más reciente se descubre en la propia página.
+def fetch_fifa_ranking() -> tuple[dict, str]:
+    H = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"}
+    page = requests.get("https://inside.fifa.com/es/fifa-world-ranking/men",
+                        headers=H, timeout=30).text
+    ids = sorted(set(re.findall(r"id\d{4,7}", page)), key=lambda s: int(s[2:]), reverse=True)
+    for did in ids[:5]:
+        d = requests.get(f"https://inside.fifa.com/api/ranking-overview?locale=en&dateId={did}",
+                         headers=H, timeout=30).json()
+        rows = d.get("rankings", [])
+        if rows:
+            rb = {}
+            for it in rows:
+                ri = it["rankingItem"]
+                if ri.get("rank") is None or not ri.get("name"):
+                    continue
+                rb[RANK_ALIAS.get(norm(ri["name"]), norm(ri["name"]))] = int(ri["rank"])
+            date = str(rows[0].get("lastUpdateDate", ""))[:10]
+            return rb, date
+    return {}, ""
+
+
+rank_by, fifa_date = fetch_fifa_ranking()
+print(f"ranking FIFA a la fecha: {fifa_date} ({len(rank_by)} selecciones)")
 
 # ranking por Elo actual (nuestro modelo, junio 2026) sobre todas las selecciones
 from model import prepare_data  # noqa: E402
@@ -73,7 +88,7 @@ for t in teams:
     if rk_ is None:
         miss_rk.append(t)
 
-out = {"fifaRankDate": str(rdf[datecol].max().date()), "teams": meta}
+out = {"fifaRankDate": fifa_date, "teams": meta}
 OUT.write_text(json.dumps(out, indent=2, ensure_ascii=False), encoding="utf-8")
 print(f"escrito {OUT} ({len(meta)} equipos)")
 print(f"sin plantilla: {miss_sq}")

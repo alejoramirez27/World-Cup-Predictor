@@ -62,12 +62,12 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
       <div className="mt-2 flex items-end justify-between gap-4">
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
           {match.equipo_home}
-          {hm.eloRank != null && (
-            <span className="tnum text-sm text-faint font-normal" title="Ranking Elo (actual)"> #{hm.eloRank}</span>
+          {hm.fifaRank != null && (
+            <span className="tnum text-sm text-faint font-normal" title="Ranking FIFA"> #{hm.fifaRank}</span>
           )}{" "}
           <span className="text-faint font-normal">vs</span> {match.equipo_away}
-          {am.eloRank != null && (
-            <span className="tnum text-sm text-faint font-normal" title="Ranking Elo (actual)"> #{am.eloRank}</span>
+          {am.fifaRank != null && (
+            <span className="tnum text-sm text-faint font-normal" title="Ranking FIFA"> #{am.fifaRank}</span>
           )}
         </h1>
         {played && (

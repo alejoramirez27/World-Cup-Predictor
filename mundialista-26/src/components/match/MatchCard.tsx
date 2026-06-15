@@ -9,10 +9,10 @@ import { GradeBadge } from "@/components/tracking/GradeBadge";
 import { teamMeta } from "@/lib/teamMeta";
 
 function Rank({ team }: { team: string }) {
-  const r = teamMeta(team).eloRank;
+  const r = teamMeta(team).fifaRank;
   if (r == null) return null;
   return (
-    <span className="tnum text-[11px] text-faint" title="Ranking Elo (actual)">
+    <span className="tnum text-[11px] text-faint" title="Ranking FIFA">
       #{r}
     </span>
   );
