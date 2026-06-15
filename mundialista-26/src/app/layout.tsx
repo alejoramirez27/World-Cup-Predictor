@@ -6,9 +6,18 @@ import { SiteNav } from "@/components/layout/SiteNav";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://world-cup-predictor-dusky.vercel.app"
+  ),
   title: "mundialista-26 · predicciones Mundial 2026",
   description:
     "Modelo de predicción del Mundial 2026: Elo ponderado, Dixon-Coles y ensemble. Probabilidades 1X2, marcadores y seguimiento honesto del modelo.",
+  openGraph: {
+    title: "mundialista·26 · predicciones Mundial 2026",
+    description:
+      "Probabilidades 1X2, marcadores, mercados y seguimiento honesto del modelo.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

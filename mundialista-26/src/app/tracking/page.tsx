@@ -6,7 +6,7 @@ import { StatTile } from "@/components/ui/StatTile";
 import { Section } from "@/components/ui/Section";
 import { pct } from "@/lib/format";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // ISR: refresca datos cada hora sin redeploy
 export const metadata = { title: "Tracking · mundialista·26" };
 
 export default async function TrackingPage() {

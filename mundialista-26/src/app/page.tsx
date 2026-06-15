@@ -2,29 +2,27 @@ import Link from "next/link";
 import { getAllMatches, getLatestMetric, todayISO } from "@/lib/queries";
 import { supabaseConfigured } from "@/lib/supabase";
 import { MatchCard } from "@/components/match/MatchCard";
+import { MatchExplorer, type ExplorerItem } from "@/components/home/MatchExplorer";
 import { StatTile } from "@/components/ui/StatTile";
-import { chipDate, cn, pct } from "@/lib/format";
+import { pct } from "@/lib/format";
 
-export const dynamic = "force-dynamic";
+// ISR: se regenera cada hora (refresca datos de Supabase sin redeploy).
+export const revalidate = 3600;
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ fecha?: string }>;
-}) {
-  const { fecha } = await searchParams;
+function phaseOf(group: string | null): string {
+  return group && /^[A-L]$/.test(group) ? "Fase de grupos" : "Eliminatorias";
+}
+
+export default async function HomePage() {
   const [all, metric] = await Promise.all([getAllMatches(), getLatestMetric()]);
 
-  const dates = [...new Set(all.map((m) => m.fecha))].sort();
-  const today = todayISO();
-  const selected =
-    fecha && dates.includes(fecha)
-      ? fecha
-      : dates.includes(today)
-        ? today
-        : (dates.find((d) => d >= today) ?? dates[dates.length - 1] ?? today);
-
-  const dayMatches = all.filter((m) => m.fecha === selected);
+  const items: ExplorerItem[] = all.map((m) => ({
+    id: m.match_id,
+    date: m.fecha,
+    group: m.fase_grupo,
+    phase: phaseOf(m.fase_grupo),
+    node: <MatchCard match={m} />,
+  }));
 
   return (
     <>
@@ -54,51 +52,7 @@ export default async function HomePage({
         </div>
       )}
 
-      {dates.length > 0 ? (
-        <>
-          {/* filtro por fecha */}
-          <div className="mb-5 -mx-4 px-4 overflow-x-auto">
-            <div className="flex gap-2 w-max pb-1">
-              {dates.map((d) => {
-                const c = chipDate(d);
-                const isSel = d === selected;
-                const isToday = d === today;
-                const count = all.filter((m) => m.fecha === d).length;
-                return (
-                  <Link
-                    key={d}
-                    href={`/?fecha=${d}`}
-                    scroll={false}
-                    className={cn(
-                      "shrink-0 rounded-card border px-3 py-2 text-center transition-colors",
-                      isSel
-                        ? "border-accent bg-accent-soft text-accent"
-                        : "border-border bg-surface text-muted hover:text-fg"
-                    )}
-                  >
-                    <div className="text-[11px] uppercase">{c.dow}</div>
-                    <div className="tnum text-lg font-semibold leading-tight">{c.day}</div>
-                    <div className="text-[11px]">
-                      {isToday ? "hoy" : c.mon} · {count}
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* partidos de la fecha seleccionada */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {dayMatches.map((m) => (
-              <MatchCard key={m.match_id} match={m} />
-            ))}
-          </div>
-        </>
-      ) : (
-        <div className="rounded-card border border-border bg-surface px-4 py-10 text-center text-sm text-muted">
-          No hay partidos cargados todavía.
-        </div>
-      )}
+      <MatchExplorer items={items} today={todayISO()} />
 
       <Link href="/tracking" className="mt-8 inline-block text-sm text-accent hover:underline">
         Ver seguimiento completo del modelo

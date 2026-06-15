@@ -14,7 +14,7 @@ import { GradeBadge } from "@/components/tracking/GradeBadge";
 import { teamMeta, FIFA_RANK_DATE, type TeamMeta } from "@/lib/teamMeta";
 import { matchContext } from "@/lib/context";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600; // ISR: refresca datos cada hora sin redeploy
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
