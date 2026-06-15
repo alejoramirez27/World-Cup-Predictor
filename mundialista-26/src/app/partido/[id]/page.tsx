@@ -11,6 +11,8 @@ import { MarketsPanel } from "@/components/match/MarketsPanel";
 import { StatsEstimate } from "@/components/match/StatsEstimate";
 import { OverUnderBadge } from "@/components/match/OverUnderBadge";
 import { GradeBadge } from "@/components/tracking/GradeBadge";
+import { teamMeta, FIFA_RANK_DATE, type TeamMeta } from "@/lib/teamMeta";
+import { matchContext } from "@/lib/context";
 
 export const dynamic = "force-dynamic";
 
@@ -41,6 +43,10 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
   const favLabel =
     fav === "home" ? match.equipo_home : fav === "away" ? match.equipo_away : "el favorito";
 
+  const hm = teamMeta(match.equipo_home);
+  const am = teamMeta(match.equipo_away);
+  const ctx = matchContext(match, hm, am);
+
   return (
     <article className="anim-rise">
       <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-fg transition-colors">
@@ -55,7 +61,14 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
 
       <div className="mt-2 flex items-end justify-between gap-4">
         <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
-          {match.equipo_home} <span className="text-faint font-normal">vs</span> {match.equipo_away}
+          {match.equipo_home}
+          {hm.eloRank != null && (
+            <span className="tnum text-sm text-faint font-normal" title="Ranking Elo (actual)"> #{hm.eloRank}</span>
+          )}{" "}
+          <span className="text-faint font-normal">vs</span> {match.equipo_away}
+          {am.eloRank != null && (
+            <span className="tnum text-sm text-faint font-normal" title="Ranking Elo (actual)"> #{am.eloRank}</span>
+          )}
         </h1>
         {played && (
           <div className="flex items-center gap-3">
@@ -81,6 +94,20 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
           homeLabel={match.equipo_home}
           awayLabel={match.equipo_away}
         />
+      </div>
+
+      <div className="mt-6 rounded-card border border-border bg-surface p-5">
+        <h2 className="text-sm font-semibold mb-2">Contexto del partido</h2>
+        <p className="text-muted leading-relaxed">{ctx}</p>
+        <div className="mt-4 grid grid-cols-2 gap-4">
+          <TeamMetaBlock name={match.equipo_home} meta={hm} />
+          <TeamMetaBlock name={match.equipo_away} meta={am} align="right" />
+        </div>
+        <p className="mt-3 text-xs text-faint">
+          Plantilla = rating medio de los 23 mejores (EA FC 25). Ranking FIFA a{" "}
+          {FIFA_RANK_DATE}; el Elo es actual. La descripción se genera desde las
+          probabilidades del modelo, no de análisis táctico.
+        </p>
       </div>
 
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-6">
@@ -151,5 +178,28 @@ export default async function MatchPage({ params }: { params: Promise<{ id: stri
         </div>
       )}
     </article>
+  );
+}
+
+function TeamMetaBlock({
+  name,
+  meta,
+  align = "left",
+}: {
+  name: string;
+  meta: TeamMeta;
+  align?: "left" | "right";
+}) {
+  const cls = align === "right" ? "text-right" : "";
+  return (
+    <div className={cls}>
+      <div className="font-medium">{name}</div>
+      <div className="mt-1 text-sm text-muted tnum">
+        Plantilla {meta.squad ?? "—"}
+      </div>
+      <div className="text-xs text-faint tnum">
+        FIFA #{meta.fifaRank ?? "—"} · Elo #{meta.eloRank ?? "—"}
+      </div>
+    </div>
   );
 }

@@ -11,8 +11,13 @@ function normalize(row: RawJoin): MatchWithResult {
   return { ...row, result: r };
 }
 
+// "Hoy" en hora de Colombia (UTC-5, sin horario de verano). Usar UTC hacía
+// que el día se adelantara entre las 19:00 y medianoche hora local, sobre
+// todo en el server de Vercel (que corre en UTC).
 export function todayISO(): string {
-  return new Date().toISOString().slice(0, 10);
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Bogota",
+  }).format(new Date());
 }
 
 /** Próximos partidos (fecha >= hoy), ascendente. */

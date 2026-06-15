@@ -6,6 +6,17 @@ import { ProbBar } from "./ProbBar";
 import { ScorelinePill } from "./ScorelinePill";
 import { OverUnderBadge } from "./OverUnderBadge";
 import { GradeBadge } from "@/components/tracking/GradeBadge";
+import { teamMeta } from "@/lib/teamMeta";
+
+function Rank({ team }: { team: string }) {
+  const r = teamMeta(team).eloRank;
+  if (r == null) return null;
+  return (
+    <span className="tnum text-[11px] text-faint" title="Ranking Elo (actual)">
+      #{r}
+    </span>
+  );
+}
 
 export function MatchCard({ match }: { match: MatchWithResult }) {
   const played = match.result !== null;
@@ -31,7 +42,9 @@ export function MatchCard({ match }: { match: MatchWithResult }) {
       </div>
 
       <div className="mt-3 flex items-center justify-between gap-3">
-        <span className="font-medium">{match.equipo_home}</span>
+        <span className="font-medium flex items-center gap-1.5">
+          {match.equipo_home} <Rank team={match.equipo_home} />
+        </span>
         {played ? (
           <span className="tnum text-lg font-semibold">
             {match.result!.goles_home}-{match.result!.goles_away}
@@ -39,7 +52,9 @@ export function MatchCard({ match }: { match: MatchWithResult }) {
         ) : (
           <span className="text-xs text-faint">vs</span>
         )}
-        <span className="font-medium text-right">{match.equipo_away}</span>
+        <span className="font-medium text-right flex items-center gap-1.5 justify-end">
+          <Rank team={match.equipo_away} /> {match.equipo_away}
+        </span>
       </div>
 
       <div className="mt-3">

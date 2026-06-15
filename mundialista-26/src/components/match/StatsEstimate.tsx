@@ -1,7 +1,8 @@
-import { CALIBRATION, matchStatsEstimate } from "@/lib/stats";
+import { pct } from "@/lib/format";
+import { CALIBRATION, cornerShotMarkets, type Line } from "@/lib/stats";
 
-// Remates y corners ESTIMADOS desde los goles esperados, calibrados con
-// datos reales. Se muestran con su caveat de baja precisión.
+// Probabilidades de líneas de corners y remates, modeladas como Poisson sobre
+// las medias calibradas con datos reales. Orientativas (ver caveat).
 export function StatsEstimate({
   lambdaHome,
   lambdaAway,
@@ -13,44 +14,63 @@ export function StatsEstimate({
   home: string;
   away: string;
 }) {
-  const s = matchStatsEstimate(lambdaHome, lambdaAway);
-  const rows = [
-    { k: "Remates", h: s.shots.home, a: s.shots.away },
-    { k: "Corners", h: s.corners.home, a: s.corners.away },
-  ];
+  const m = cornerShotMarkets(lambdaHome, lambdaAway);
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <MarketCard title="Corners" data={m.corners} home={home} away={away} />
+      <MarketCard title="Remates" data={m.shots} home={home} away={away} />
+      <p className="sm:col-span-2 text-xs text-faint">
+        Líneas modeladas como Poisson sobre medias calibradas con{" "}
+        {CALIBRATION.nMatches} partidos reales ({CALIBRATION.source}). La media
+        se predice débilmente desde los goles esperados (R² {CALIBRATION.shots.r2}{" "}
+        remates / {CALIBRATION.corners.r2} corners), así que son probabilidades
+        orientativas, cercanas al promedio del torneo.
+      </p>
+    </div>
+  );
+}
 
+function MarketCard({
+  title,
+  data,
+  home,
+  away,
+}: {
+  title: string;
+  data: { home: Line[]; away: Line[]; total: Line[]; expTotal: number };
+  home: string;
+  away: string;
+}) {
   return (
     <div className="rounded-card border border-border bg-surface p-4">
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center text-xs text-faint mb-2">
-        <span className="truncate">{home}</span>
-        <span />
-        <span className="text-right truncate">{away}</span>
+      <div className="flex items-baseline justify-between mb-3">
+        <h3 className="text-sm font-semibold">{title}</h3>
+        <span className="tnum text-xs text-faint">
+          ≈ {data.expTotal.toFixed(1)} totales
+        </span>
       </div>
-      <ul className="space-y-3">
-        {rows.map((r) => {
-          const total = r.h + r.a;
-          const hPct = total > 0 ? (r.h / total) * 100 : 50;
-          return (
-            <li key={r.k}>
-              <div className="flex items-center justify-between text-sm">
-                <span className="tnum font-medium">{r.h.toFixed(1)}</span>
-                <span className="text-muted">{r.k}</span>
-                <span className="tnum font-medium">{r.a.toFixed(1)}</span>
-              </div>
-              <div className="mt-1 flex h-1.5 rounded-full overflow-hidden bg-surface-2">
-                <span className="anim-grow-x h-full bg-home" style={{ width: `${hPct}%` }} />
-                <span className="h-full bg-away" style={{ width: `${100 - hPct}%` }} />
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-      <p className="mt-3 text-xs text-faint">
-        Estimación derivada de los goles esperados, calibrada con {CALIBRATION.nMatches}{" "}
-        partidos reales ({CALIBRATION.source}). Relación débil (R²{" "}
-        {CALIBRATION.shots.r2} remates / {CALIBRATION.corners.r2} corners): es
-        aproximada, dominada por el promedio del torneo.
-      </p>
+      <LineGroup label="Total" lines={data.total} />
+      <LineGroup label={home} lines={data.home} />
+      <LineGroup label={away} lines={data.away} />
+    </div>
+  );
+}
+
+function LineGroup({ label, lines }: { label: string; lines: Line[] }) {
+  return (
+    <div className="mb-2 last:mb-0">
+      <div className="text-xs text-faint mb-1 truncate">{label}</div>
+      <div className="flex flex-wrap gap-2">
+        {lines.map((l) => (
+          <span
+            key={l.line}
+            className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-xs"
+          >
+            <span className="text-muted">+{l.line}</span>
+            <span className="tnum text-fg">{pct(l.over)}</span>
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

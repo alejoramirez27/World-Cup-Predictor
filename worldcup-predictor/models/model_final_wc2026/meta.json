@@ -1,6 +1,6 @@
 {
   "version": "model_final_wc2026",
-  "created": "2026-06-14T17:59:37",
+  "created": "2026-06-14T22:25:04",
   "trained_through": "2026-06-11",
   "n_matches": 23273,
   "params": {
@@ -13,7 +13,7 @@
     "gamma": 1.579648497673366
   },
   "n_estimators": 124,
-  "rho": -0.05019003208719845,
+  "rho": -0.0513181373673136,
   "ensemble_w": 0.55,
   "dc": {
     "since": 2018,
@@ -39,7 +39,10 @@
     "elo_diff",
     "elo_expected_home",
     "true_home_advantage",
-    "match_type"
+    "match_type",
+    "home_squad",
+    "away_squad",
+    "squad_diff"
   ],
   "tuning": {
     "best_value": 2.7981253345349035,

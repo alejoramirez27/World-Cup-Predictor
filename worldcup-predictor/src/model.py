@@ -18,6 +18,7 @@ from xgboost import XGBRegressor
 
 from data_loader import add_basic_features, filter_since, load_results
 from features import FeatureBuilder
+from squad_strength import add_squad_columns, squad_for
 
 MODELS_DIR = Path(__file__).resolve().parent.parent / "models"
 
@@ -47,10 +48,14 @@ _TEAM_FEATS = [
     "elo", "gf_adj5", "ga_adj5", "gf_adj10", "ga_adj10",
     "form5_perf", "comp_share10",
 ]
+# Fuerza de plantilla (rating FIFA por nacionalidad) — la mejor mejora de
+# feature del proyecto (test_fifa_squad.py): capta el talento actual que el
+# Elo (basado en resultados) no refleja. Mejora log-loss/Brier/accuracy.
 FEATURE_COLS = (
     [f"home_{c}" for c in _TEAM_FEATS]
     + [f"away_{c}" for c in _TEAM_FEATS]
-    + ["elo_diff", "elo_expected_home", "true_home_advantage", "match_type"]
+    + ["elo_diff", "elo_expected_home", "true_home_advantage", "match_type",
+       "home_squad", "away_squad", "squad_diff"]
 )
 
 
@@ -62,6 +67,7 @@ def prepare_data() -> tuple[pd.DataFrame, FeatureBuilder]:
     builder = FeatureBuilder()
     builder.warm_up(full[full["date"] < cutoff])
     df = builder.transform(full[full["date"] >= cutoff].reset_index(drop=True))
+    df = add_squad_columns(df)  # fuerza de plantilla (rating FIFA por año)
     return df, builder
 
 
@@ -451,6 +457,10 @@ def predict_match(models: dict, builder: FeatureBuilder, home_team: str,
     feats = builder.match_features(home_team, away_team, date, match_type,
                                    neutral, city=city, country=country,
                                    knockout=knockout)
+    yr = pd.Timestamp(date).year  # fuerza de plantilla (rating FIFA del año)
+    feats["home_squad"] = squad_for(home_team, yr)
+    feats["away_squad"] = squad_for(away_team, yr)
+    feats["squad_diff"] = feats["home_squad"] - feats["away_squad"]
     cols = models.get("feature_cols") or FEATURE_COLS
     X = pd.DataFrame([{c: feats.get(c, np.nan) for c in cols}])
     X["match_type"] = X["match_type"].astype("category")
